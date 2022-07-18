@@ -2,8 +2,14 @@ const popupElement = document.querySelector('.popup')
 const editButton = document.querySelector('.profile__edit-button');
 const popupCloseButton = document.querySelector('.popup__close');
 
+const profileElement = document.querySelector('.profile');
+const profileName = profileElement.querySelector('.profile__name');
+const profileJob = profileElement.querySelector('.profile__subtitle');
+
 const openPopup = function () {
    popupElement.classList.add('popup_opened');
+   nameInput.value = profileName.textContent;
+   jobInput.value = profileJob.textContent;
 }
 
 const closePopup = function () {
@@ -12,11 +18,6 @@ const closePopup = function () {
 
 editButton.addEventListener('click', openPopup);
 popupCloseButton.addEventListener('click', closePopup);
-
-const profileElement = document.querySelector('.profile');
-const profileName = profileElement.querySelector('.profile__name');
-const profileJob = profileElement.querySelector('.profile__subtitle');
-
 
 
 // Находим форму в DOM
@@ -32,13 +33,9 @@ function formSubmitHandler(evt) {
    // Так мы можем определить свою логику отправки.
    // О том, как это делать, расскажем позже.
 
-   // Получите значение полей jobInput и nameInput из свойства value
-   let name = nameInput.value;
-   let job = jobInput.value;
-
    // Вставьте новые значения с помощью textContent
-   profileName.textContent = name;
-   profileJob.textContent = job;
+   profileName.textContent = nameInput.value;
+   profileJob.textContent = jobInput.value;
 
    closePopup();
 }
