@@ -3,8 +3,8 @@ const elementCards = document.querySelector('.elements__cards');
 
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__subtitle');
-const editButton = document.querySelector('.profile__edit-button');
-const addButton = document.querySelector('.profile__add-button');
+const buttonEdit = document.querySelector('.profile__edit-button');
+const buttonAdd = document.querySelector('.profile__add-button');
 
 const popupEditProfile = document.querySelector('.popup_type_edit');
 const popupCloseProfile = popupEditProfile.querySelector('.popup__close');
@@ -87,8 +87,8 @@ function openPopupProfile() {
    openPopup(popupEditProfile);
 }
 
-editButton.addEventListener('click', () => openPopupProfile());
-addButton.addEventListener('click', () => openPopup(popupAddCard));
+buttonEdit.addEventListener('click', () => openPopupProfile());
+buttonAdd.addEventListener('click', () => openPopup(popupAddCard));
 
 popupCloseProfile.addEventListener('click', () => closePopup(popupEditProfile));
 popupCloseCard.addEventListener('click', () => closePopup(popupAddCard));
