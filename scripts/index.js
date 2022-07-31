@@ -1,30 +1,125 @@
-const popupElement = document.querySelector('.popup')
+const initialCards = [
+   {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+   },
+   {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+   },
+   {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+   },
+   {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+   },
+   {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+   },
+   {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+   }
+];
+
+const elementTemplate = document.querySelector('.element-template').content;
+const elementCards = document.querySelector('.elements__cards');
+
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__subtitle');
 const editButton = document.querySelector('.profile__edit-button');
-const popupCloseButton = document.querySelector('.popup__close');
+const addButton = document.querySelector('.profile__add-button');
 
-const profileElement = document.querySelector('.profile');
-const profileName = profileElement.querySelector('.profile__name');
-const profileJob = profileElement.querySelector('.profile__subtitle');
+const popupEditProfile = document.querySelector('.popup_type_edit');
+const popupCloseProfile = popupEditProfile.querySelector('.popup__close');
+const popupFormProfile = popupEditProfile.querySelector('.popup__form');
+const popupNameProfile = popupEditProfile.querySelector('.popup__input_type_name');
+const popupJobProfile = popupEditProfile.querySelector('.popup__input_type_job');
 
-const openPopup = function () {
-   popupElement.classList.add('popup_opened');
-   nameInput.value = profileName.textContent;
-   jobInput.value = profileJob.textContent;
+const popupAddCard = document.querySelector('.popup_type_add-card');
+const popupCloseCard = popupAddCard.querySelector('.popup__close');
+const popupFormCard = popupAddCard.querySelector('.popup__form');
+const popupNameCard = popupAddCard.querySelector('.popup__input_add-card_name');
+const popupLinkCard = popupAddCard.querySelector('.popup__input_add-card_link');
+
+const popupImage = document.querySelector('.popup_type_image');
+const popupCloseImage = popupImage.querySelector('.popup__close');
+const popupZoomImage = popupImage.querySelector('.popup__image');
+const popupCaption = popupImage.querySelector('.popup__caption');
+
+
+function createCard(card) {
+   const cardElement = elementTemplate.cloneNode(true);
+   const cardImage = cardElement.querySelector('.element__image');
+   const cardLike = cardElement.querySelector('.element__like-button');
+   const cardDelete = cardElement.querySelector('.element__trash-button');
+
+   cardImage.src = card.link;
+   cardImage.alt = card.name;
+   cardElement.querySelector('.element__title').textContent = card.name;
+
+   cardLike.addEventListener('click', function (evt) {
+      evt.target.classList.toggle('element__like-button_active');
+   });
+
+   cardDelete.addEventListener('click', function (evt) {
+      evt.target.closest('.element').remove();
+   });
+
+   cardImage.addEventListener('click', () => openPopupZoom(cardImage));
+
+   return cardElement;
 }
 
-const closePopup = function () {
-   popupElement.classList.remove('popup_opened');
+function openPopupZoom(zoom) {
+   popupZoomImage.src = zoom.src;
+   popupZoomImage.alt = zoom.alt;
+   popupCaption.textContent = zoom.alt;
+   openPopup(popupImage);
+};
+
+function addPopupCard(evt) {
+   evt.preventDefault();
+   const newImage = {
+      name: popupNameCard.value,
+      link: popupLinkCard.value
+   }
+
+   elementCards.prepend(createCard(newImage));
+   popupFormProfile.reset();
+   closePopup(popupAddCard);
+}
+popupFormCard.addEventListener('submit', addPopupCard);
+
+
+initialCards.forEach(function (item) {
+   const newCard = createCard(item);
+   elementCards.append(newCard);
+});
+
+function openPopup(popup) {
+   popup.classList.add('popup_opened')
 }
 
-editButton.addEventListener('click', openPopup);
-popupCloseButton.addEventListener('click', closePopup);
+function closePopup(popup) {
+   popup.classList.remove('popup_opened')
+}
 
+function openPopupProfile() {
+   popupNameProfile.value = profileName.textContent;
+   popupJobProfile.value = profileJob.textContent;
+   openPopup(popupEditProfile);
+}
 
-// Находим форму в DOM
-let formElement = document.querySelector('.popup__form'); // Воспользуйтесь методом querySelector()
-// Находим поля формы в DOM
-let nameInput = formElement.querySelector('.popup__input_type_name') // Воспользуйтесь инструментом .querySelector()
-let jobInput = formElement.querySelector('.popup__input_type_job') // Воспользуйтесь инструментом .querySelector()
+editButton.addEventListener('click', () => openPopupProfile());
+addButton.addEventListener('click', () => openPopup(popupAddCard));
+
+popupCloseProfile.addEventListener('click', () => closePopup(popupEditProfile));
+popupCloseCard.addEventListener('click', () => closePopup(popupAddCard));
+popupCloseImage.addEventListener('click', () => closePopup(popupImage));
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
@@ -34,12 +129,12 @@ function formSubmitHandler(evt) {
    // О том, как это делать, расскажем позже.
 
    // Вставьте новые значения с помощью textContent
-   profileName.textContent = nameInput.value;
-   profileJob.textContent = jobInput.value;
+   profileName.textContent = popupNameProfile.value;
+   profileJob.textContent = popupJobProfile.value;
 
-   closePopup();
+   closePopup(popupEditProfile);
 }
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-formElement.addEventListener('submit', formSubmitHandler);
+popupFormProfile.addEventListener('submit', formSubmitHandler);
