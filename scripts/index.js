@@ -1,30 +1,3 @@
-const initialCards = [
-   {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-   },
-   {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-   },
-   {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-   },
-   {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-   },
-   {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-   },
-   {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-   }
-];
-
 const elementTemplate = document.querySelector('.element-template').content;
 const elementCards = document.querySelector('.elements__cards');
 
@@ -89,7 +62,7 @@ function addPopupCard(evt) {
    }
 
    elementCards.prepend(createCard(newImage));
-   popupFormProfile.reset();
+   popupFormCard.reset();
    closePopup(popupAddCard);
 }
 popupFormCard.addEventListener('submit', addPopupCard);
@@ -123,7 +96,7 @@ popupCloseImage.addEventListener('click', () => closePopup(popupImage));
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
-function formSubmitHandler(evt) {
+function handlerProfileFormSubmit(evt) {
    evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
    // Так мы можем определить свою логику отправки.
    // О том, как это делать, расскажем позже.
@@ -137,4 +110,4 @@ function formSubmitHandler(evt) {
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-popupFormProfile.addEventListener('submit', formSubmitHandler);
+popupFormProfile.addEventListener('submit', handlerProfileFormSubmit);
