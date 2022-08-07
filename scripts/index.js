@@ -61,7 +61,7 @@ function addPopupCard(evt) {
    }
 
    elementCards.prepend(createCard(newImage));
-   //popupFormCard.reset();
+   popupFormCard.reset();
    closePopup(popupAddCard);
 }
 
@@ -77,15 +77,15 @@ initialCards.forEach(function (item) {
 function openPopup(popup) {
    popup.classList.add('popup_opened')
    document.addEventListener('keydown', closePopupEsc)
+   //const popupForm = popup.querySelector('.popup__form');
+   //if (popupForm) {
+   //popupForm.reset();
+   //}
 }
 
 function closePopup(popup) {
    popup.classList.remove('popup_opened')
    document.removeEventListener('keydown', closePopupEsc)
-   const popupForm = popup.querySelector('.popup__form');
-   if (popupForm) {
-      popupForm.reset();
-   }
 }
 
 function closePopupEsc(evt) {
@@ -112,9 +112,10 @@ function openPopupProfile() {
 }
 
 function openPopupCard() {
+   const popupSubmit = popupAddCard.querySelector('.popup__submit');
    openPopup(popupAddCard);
-   popupAddCard.querySelector('.popup__submit').setAttribute("disabled", true);
-   popupAddCard.querySelector('.popup__submit').classList.add('popup__submit_disabled');
+   popupSubmit.setAttribute("disabled", true);
+   popupSubmit.classList.add('popup__submit_disabled');
 }
 
 buttonEdit.addEventListener('click', () => openPopupProfile());
