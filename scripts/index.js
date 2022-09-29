@@ -1,3 +1,7 @@
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+import { initialCards, validationClass } from './cards.js';
+
 const elementTemplate = document.querySelector('.element-template').content;
 const elementCards = document.querySelector('.elements__cards');
 
@@ -22,36 +26,12 @@ const popupCaption = popupImage.querySelector('.popup__caption');
 
 const popupCloseOverlay = document.querySelectorAll('.popup');
 
+function createCard(name, link) {
+   const cardElement = new Card({ name, link }, elementTemplate).generateCard();
 
-function createCard(card) {
-   const cardElement = elementTemplate.cloneNode(true);
-   const cardImage = cardElement.querySelector('.element__image');
-   const cardLike = cardElement.querySelector('.element__like-button');
-   const cardDelete = cardElement.querySelector('.element__trash-button');
-
-   cardImage.src = card.link;
-   cardImage.alt = card.name;
-   cardElement.querySelector('.element__title').textContent = card.name;
-
-   cardLike.addEventListener('click', function (evt) {
-      evt.target.classList.toggle('element__like-button_active');
-   });
-
-   cardDelete.addEventListener('click', function (evt) {
-      evt.target.closest('.element').remove();
-   });
-
-   cardImage.addEventListener('click', () => openPopupZoom(cardImage));
-
-   return cardElement;
+   elementCards.prepend(cardElement);
 }
 
-function openPopupZoom(zoom) {
-   popupZoomImage.src = zoom.src;
-   popupZoomImage.alt = zoom.alt;
-   popupCaption.textContent = zoom.alt;
-   openPopup(popupImage);
-};
 
 function addPopupCard(evt) {
    evt.preventDefault();
@@ -65,22 +45,25 @@ function addPopupCard(evt) {
    closePopup(popupAddCard);
 }
 
+
+
 popupFormCard.addEventListener('submit', addPopupCard);
 
+function openPopupZoom(zoom) {
+   popupZoomImage.src = zoom.querySelector('.element__image').src;
+   popupZoomImage.alt = zoom.querySelector('.element__image').alt;
+   popupCaption.textContent = zoom.querySelector('.element__title').textContent;
+   openPopup(popupImage);
+}
 
-
-initialCards.forEach(function (item) {
-   const newCard = createCard(item);
-   elementCards.append(newCard);
+initialCards.forEach((item) => {
+   const cardElement = createCard(item.name, item.link);
+   elementCards.append(cardElement);
 });
 
 function openPopup(popup) {
-   popup.classList.add('popup_opened')
-   document.addEventListener('keydown', closePopupEsc)
-   //const popupForm = popup.querySelector('.popup__form');
-   //if (popupForm) {
-   //popupForm.reset();
-   //}
+   popup.classList.add('popup_opened');
+   document.addEventListener('keydown', closePopupEsc);
 }
 
 function closePopup(popup) {
@@ -108,37 +91,34 @@ popupCloseOverlay.forEach((element) => {
 function openPopupProfile() {
    popupNameProfile.value = profileName.textContent;
    popupJobProfile.value = profileJob.textContent;
+   popupEditProfileFormValidator.resetValidation();
    openPopup(popupEditProfile);
 }
 
 function openPopupCard() {
-   const popupSubmit = popupAddCard.querySelector('.popup__submit');
    openPopup(popupAddCard);
-   popupSubmit.setAttribute("disabled", true);
-   popupSubmit.classList.add('popup__submit_disabled');
+   popupAddCardFormValidator.resetValidation();
 }
 
 buttonEdit.addEventListener('click', () => openPopupProfile());
 buttonAdd.addEventListener('click', () => openPopupCard());
 
-//popupCloseProfile.addEventListener('click', () => closePopup(popupEditProfile));
-//popupCloseCard.addEventListener('click', () => closePopup(popupAddCard));
-//popupCloseImage.addEventListener('click', () => closePopup(popupImage));
 
-// Обработчик «отправки» формы, хотя пока
-// она никуда отправляться не будет
 function handlerProfileFormSubmit(evt) {
-   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-   // Так мы можем определить свою логику отправки.
-   // О том, как это делать, расскажем позже.
+   evt.preventDefault();
 
-   // Вставьте новые значения с помощью textContent
    profileName.textContent = popupNameProfile.value;
    profileJob.textContent = popupJobProfile.value;
 
    closePopup(popupEditProfile);
 }
 
-// Прикрепляем обработчик к форме:
-// он будет следить за событием “submit” - «отправка»
 popupFormProfile.addEventListener('submit', handlerProfileFormSubmit);
+
+const popupEditProfileFormValidator = new FormValidator(validationClass, popupEditProfile);
+popupEditProfileFormValidator.enableValidation();
+
+const popupAddCardFormValidator = new FormValidator(validationClass, popupAddCard);
+popupAddCardFormValidator.enableValidation();
+
+export { openPopupZoom };
