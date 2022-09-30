@@ -26,11 +26,10 @@ const popupCaption = popupImage.querySelector('.popup__caption');
 
 const popupCloseOverlay = document.querySelectorAll('.popup');
 
-function createCard(name, link) {
-   const cardElement = new Card({ name, link }, elementTemplate).generateCard();
-
-   elementCards.prepend(cardElement);
-}
+function createCard(item) {
+   const card = new Card(item, elementTemplate, openPopupZoom);
+   return card.generateCard();
+};
 
 
 function addPopupCard(evt) {
@@ -49,16 +48,18 @@ function addPopupCard(evt) {
 
 popupFormCard.addEventListener('submit', addPopupCard);
 
-function openPopupZoom(zoom) {
-   popupZoomImage.src = zoom.querySelector('.element__image').src;
-   popupZoomImage.alt = zoom.querySelector('.element__image').alt;
-   popupCaption.textContent = zoom.querySelector('.element__title').textContent;
+function openPopupZoom(name, link) {
+   //popupZoomImage.src = zoom.querySelector('.element__image').src;
+   //popupZoomImage.alt = zoom.querySelector('.element__image').alt;
+   //popupCaption.textContent = zoom.querySelector('.element__title').textContent;
+   popupZoomImage.src = link;
+   popupZoomImage.alt = name;
+   popupCaption.textContent = name;
    openPopup(popupImage);
 }
 
-initialCards.forEach((item) => {
-   const cardElement = createCard(item.name, item.link);
-   elementCards.append(cardElement);
+initialCards.forEach(card => {
+   elementCards.append(createCard(card));
 });
 
 function openPopup(popup) {
@@ -121,4 +122,4 @@ popupEditProfileFormValidator.enableValidation();
 const popupAddCardFormValidator = new FormValidator(validationClass, popupAddCard);
 popupAddCardFormValidator.enableValidation();
 
-export { openPopupZoom };
+//export { openPopupZoom };
