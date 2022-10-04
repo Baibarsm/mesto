@@ -6,7 +6,7 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Место</title>
-   <link rel="stylesheet" href="./pages/index.css">
+
 </head>
 
 <body class="body-color">
@@ -18,7 +18,7 @@
       <main>
          <section class="profile">
             <div class="profile__content">
-               <img class="profile__avatar" src="./images/profile.jpg" alt="аватар">
+               <img class="profile__avatar" src="<%=require('./images/profile.jpg')%>" alt="аватар">
                <div class="profile__info">
                   <h1 class="profile__name">Жак-Ив Кусто</h1>
                   <button class="profile__edit-button" type="button" aria-label="Редактировать профиль"></button>
@@ -43,7 +43,7 @@
          <div class="popup__container">
             <button class="popup__close" type="button" aria-label="Закрыть окно"></button>
             <h3 class="popup__title">Редактировать профиль</h3>
-            <form class="popup__form" name="popup-form" action="#" novalidate>
+            <form class="popup__form" name="editForm" action="#" novalidate>
                <input class="popup__input popup__input_type_name" type="text" name="name" placeholder="Имя"
                   id="edit-name" minlength="2" maxlength="40" required>
                <span id="edit-name-error" class="popup__error"></span>
@@ -59,7 +59,7 @@
          <div class="popup__container">
             <h3 class="popup__title">Новое место</h3>
             <button class="popup__close" type="button" aria-label="Закрыть окно"></button>
-            <form class="popup__form" name="popup-form" action="#" novalidate>
+            <form class="popup__form" name="addForm" action="#" novalidate>
                <input class="popup__input popup__input_add-card_name" type="text" name="cardName" placeholder="Название"
                   id="card-name" minlength="2" maxlength="30" required>
                <span id="card-name-error" class="popup__error"></span>
@@ -91,7 +91,7 @@
       </template>
 
    </div>
-   <script type="module" src="./scripts/index.js"></script>
+
 </body>
 
 </html>

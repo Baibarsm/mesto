@@ -1,11 +1,10 @@
-//import { openPopupZoom } from './index.js';
-
 class Card {
-   constructor(card, cardTemplate, openPopupZoom) {
-      this._name = card.name;
-      this._link = card.link;
+
+   constructor({ data, handleCardClick }, cardTemplate) {
+      this._name = data.name || data.cardName;
+      this._link = data.link || data.cardLink;
       this._cardTemplate = cardTemplate;
-      this._openPopupZoom = openPopupZoom;
+      this._handleCardClick = handleCardClick;
    };
 
    _setEventListeners() {
@@ -18,12 +17,14 @@ class Card {
       });
 
       this._elementImage.addEventListener('click', () => {
-         this._openPopupZoom(this._name, this._link);
+         this._handleCardClick(this._name, this._link);
       });
    };
 
    _getTemplate() {
-      return this._cardTemplate.querySelector('.element').cloneNode(true);
+      const cardElement = document.querySelector(this._cardTemplate)
+         .content.querySelector('.element').cloneNode(true);
+      return cardElement;
    };
 
    _likeCard(evt) {
@@ -44,7 +45,7 @@ class Card {
       this._setEventListeners();
       return this._element;
    }
+}
 
-};
 
 export { Card };

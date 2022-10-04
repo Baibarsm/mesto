@@ -44,7 +44,6 @@ class FormValidator {
       });
    };
 
-
    _hasInvalidInput() {
       return this._inputList.some((inputElement) => {
          return !inputElement.validity.valid;
@@ -70,13 +69,11 @@ class FormValidator {
       this._inputList.forEach((inputElement) => {
          this._hideInputError(inputElement)
       });
-   };
+   }
 
    enableValidation() {
       this._setEventListeners();
-   };
-
-
-};
+   }
+}
 
 export { FormValidator }
