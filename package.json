@@ -4,7 +4,7 @@
   "description": "Проектная работа  №4 в Яндекс.Практикум, по курсу \"Веб-разработчик\". Данный адаптивный одностроничный сайт выполнен по методологии БЭМ. В проекте реализованы базовые функции JS - открытие/закрытие popup; редактирование имени и описания профиля(взаимодействия с DOM деревом).",
   "main": "index.js",
   "scripts": {
-    "build": "rd /s /q dist && webpack --mode production",
+    "build": "rimraf dist && webpack --mode production",
     "dev": "webpack serve"
   },
   "repository": {

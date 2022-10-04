@@ -27,12 +27,12 @@ const cardList = new Section({
    },
 }, '.elements__cards');
 
-cardList.renderItems();
+cardList.renderItems(initialCards);
 
 const popupImage = new PopupWithImage('.popup_type_image');
 popupImage.setEventListeners();
 
-function popupFormProfile({ name, about }) {
+function infoPopupFormProfile({ name, about }) {
    profileName.value = name;
    profileJob.value = about;
 }
@@ -56,7 +56,7 @@ profilePopupEdit.setEventListeners();
 
 buttonEdit.addEventListener('click', () => {
    const info = userInfo.getUserInfo();
-   popupFormProfile({
+   infoPopupFormProfile({
       name: info.name,
       about: info.about
    });

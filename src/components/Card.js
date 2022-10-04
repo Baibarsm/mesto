@@ -1,8 +1,8 @@
 class Card {
 
    constructor({ data, handleCardClick }, cardTemplate) {
-      this._name = data.name || data.cardName;
-      this._link = data.link || data.cardLink;
+      this._name = data.name;
+      this._link = data.link;
       this._cardTemplate = cardTemplate;
       this._handleCardClick = handleCardClick;
    };
@@ -33,6 +33,7 @@ class Card {
 
    _deleteCard() {
       this._element.remove();
+      this._element = null;
    };
 
    generateCard() {
