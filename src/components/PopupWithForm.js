@@ -6,6 +6,7 @@ export class PopupWithForm extends Popup {
       this._handleSubmit = handleSubmit;
       this._popupForm = this._popup.querySelector('.popup__form');
       this._inputList = this._popupForm.querySelectorAll('.popup__input');
+      this._button = this._popupForm.querySelector('.popup__submit');
    }
 
    _getInputValues = () => {
@@ -13,7 +14,6 @@ export class PopupWithForm extends Popup {
       this._inputList.forEach(input => {
          this._formValues[input.name] = input.value;
       })
-
       return this._formValues;
    }
 
@@ -28,5 +28,13 @@ export class PopupWithForm extends Popup {
    close() {
       super.close()
       this._popupForm.reset()
+   }
+
+   loading(status) {
+      if (status) {
+         this._button.textContent = 'Сохранение...';
+      } else {
+         this._button.textContent = 'Сохранить';
+      }
    }
 }
