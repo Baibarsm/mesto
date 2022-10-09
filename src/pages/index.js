@@ -40,11 +40,11 @@ const createCard = (data) => {
          popupImage.open(data);
       },
       handleDeleteCard: (cardId) => {
-         deletePopup.open();
-         deletePopup.submitDelCard(() => {
+         popupConfirm.open();
+         popupConfirm.submitDelCard(() => {
             api.deleteCard(cardId).then(() => {
                card.deleteCard();
-               deletePopup.close();
+               popupConfirm.close();
             })
                .catch((err) => console.log(err));
          });
@@ -68,7 +68,7 @@ const createCard = (data) => {
 
 const cardList = new Section({
    renderer: (card) => {
-      cardList.addItemAppend(createCard(card));
+      cardList.appendItem(createCard(card));
    },
 }, '.elements__cards');
 
@@ -81,9 +81,9 @@ function setInfoPopupFormProfile({ name, about }) {
 }
 
 const userInfo = new UserInfo({
-   name: '.profile__name',
-   about: '.profile__subtitle',
-   profileAvatar: '.profile__avatar'
+   nameSelector: '.profile__name',
+   aboutSelector: '.profile__subtitle',
+   profileAvatarSelector: '.profile__avatar'
 });
 
 const profilePopupEdit = new PopupWithForm({
@@ -117,7 +117,7 @@ const popupFormAddCard = new PopupWithForm({
    popupSelector: '.popup_type_add-card', handleSubmit: (data) => {
       popupFormAddCard.loading(true);
       api.addNewCard(data).then((data) => {
-         cardList.addItem(createCard(data))
+         cardList.prependItem(createCard(data))
          popupFormAddCard.close();
       })
          .catch((err) => console.log(err)).finally(() => {
@@ -133,8 +133,8 @@ buttonAdd.addEventListener('click', () => {
    popupFormAddCard.open();
 });
 
-const deletePopup = new PopupWithConfirm('.popup_type_delete-confirm');
-deletePopup.setEventListeners();
+const popupConfirm = new PopupWithConfirm('.popup_type_delete-confirm');
+popupConfirm.setEventListeners();
 
 const editAvatarPopup = new PopupWithForm({
    popupSelector: '.popup_type_edit-avatar',
